@@ -1,5 +1,5 @@
 extern crate log;
-extern crate discotech_zookeeper;
+extern crate zookeeper;
 
 use config::*;
 
@@ -9,9 +9,7 @@ use std::thread;
 use std::time::Duration;
 use std::collections::HashMap;
 use std::collections::HashSet;
-use discotech_zookeeper::{Acl, CreateMode, Watcher, WatchedEvent, ZkError, ZooKeeper};
-use discotech_zookeeper::perms;
-
+use zookeeper::{Acl, CreateMode, Watcher, WatchedEvent, ZkError, ZooKeeper};
 
 #[derive(Debug, RustcDecodable, RustcEncodable)]
 pub struct ServiceEndpoint {
@@ -30,7 +28,7 @@ pub struct ServersetMember {
 
 struct NullWatcher;
 impl Watcher for NullWatcher {
-  fn handle(&self, e: &WatchedEvent) {}
+  fn handle(&self, e: WatchedEvent) {}
 }
 
 
@@ -53,7 +51,7 @@ impl Serverset {
     }
   }
 
-  pub fn watch(&self) {
+  pub fn watch(self) {
     let zk_client = self.zk_client.clone();
     thread::spawn(move || {
       self.update_members(zk_client);
