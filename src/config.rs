@@ -18,7 +18,7 @@ pub struct DiscoConfig {
 
 
 pub fn read_config(config_file_loc: String) -> io::Result<DiscoConfig> {
-  let mut config_file = try!(File::open(config_file_loc));
+  let mut config_file = File::open(config_file_loc)?;
   let mut config_file_contents = String::new();
   try!(config_file.read_to_string(&mut config_file_contents));
   let config: DiscoConfig = json::decode(&config_file_contents).unwrap();

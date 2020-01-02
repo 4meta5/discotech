@@ -7,7 +7,7 @@
 extern crate log;
 extern crate log4rs;
 extern crate rustc_serialize;
-extern crate discotech_zookeeper;
+extern crate zookeeper;
 
 pub use config::{read_config, DiscoConfig};
 pub use serverset::Serverset;
